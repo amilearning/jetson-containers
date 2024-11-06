@@ -1,5 +1,46 @@
 [![a header for a software project about building containers for AI and machine learning](https://raw.githubusercontent.com/dusty-nv/jetson-containers/docs/docs/images/header_blueprint_rainbow.jpg)](https://www.jetson-ai-lab.com)
 
+# ROS and PyTorch Docker Setup for Jetson AGX Orin
+
+This guide provides instructions for setting up a Docker environment with ROS and PyTorch on a Jetson AGX Orin running JetPack 6.1.
+
+## Prerequisites
+
+- **Jetson AGX Orin** with **JetPack 6.1** installed.
+
+## Steps
+
+### 1. Build the Base Docker Image
+
+First, use `jetson-containers` to build a base Docker image with ROS and PyTorch. Run the following command:
+
+```bash
+$ jetson-containers build --name=ros_torch:l4t-r36.4.0 l4t-pytorch ros:humble-desktop
+```
+
+This command builds an image named `ros_torch:l4t-r36.4.0` with PyTorch and ROS Humble installed, specifically for NVIDIA's L4T (Linux for Tegra) environment on Jetson devices.
+
+## 2. Build Your Custom Docker Image
+
+Next, build your custom Docker image from the `jetson-containers/docker_user_build` directory:
+
+1. Navigate to the directory:
+
+   ```bash
+   cd /jetson-containers/docker_user_build
+   ```
+
+2. Build the Docker image:
+
+   ```bash
+   docker build -t ros_torch:frl .
+   ```
+
+This command creates a Docker image tagged as `ros_torch:frl`.
+
+
+
+
 # Machine Learning Containers for Jetson and JetPack
 
 [![l4t-pytorch](https://img.shields.io/github/actions/workflow/status/dusty-nv/jetson-containers/l4t-pytorch_jp51.yml?label=l4t-pytorch)](/packages/l4t/l4t-pytorch)  [![l4t-tensorflow](https://img.shields.io/github/actions/workflow/status/dusty-nv/jetson-containers/l4t-tensorflow-tf2_jp51.yml?label=l4t-tensorflow)](/packages/l4t/l4t-tensorflow) [![l4t-ml](https://img.shields.io/github/actions/workflow/status/dusty-nv/jetson-containers/l4t-ml_jp51.yml?label=l4t-ml)](/packages/l4t/l4t-ml) [![l4t-diffusion](https://img.shields.io/github/actions/workflow/status/dusty-nv/jetson-containers/l4t-diffusion_jp51.yml?label=l4t-diffusion)](/packages/l4t/l4t-diffusion) [![l4t-text-generation](https://img.shields.io/github/actions/workflow/status/dusty-nv/jetson-containers/l4t-text-generation_jp60.yml?label=l4t-text-generation)](/packages/l4t/l4t-text-generation)
