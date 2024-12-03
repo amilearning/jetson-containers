@@ -319,6 +319,7 @@ if [ $ARCH = "aarch64" ]; then
 		--volume /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket \
 		--volume /var/run/docker.sock:/var/run/docker.sock \
 		--volume /home/frlagx/align_ws:/home/frl/align_ws \
+		--volume /home/frlagx/elev_ws:/home/frl/elev_ws \
 		--volume ~/.vscode-server:/home/frl/.vscode-server \
 		--volume $ROOT/data:/data \
 		-v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro \

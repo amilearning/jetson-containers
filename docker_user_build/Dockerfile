@@ -20,9 +20,42 @@ RUN chown -R root:root /root && \
     usermod -aG root frl
 
 # Install required Python packages
-RUN pip install xformers triton
+RUN pip install xformers triton simple_parsing scikit-learn cupy pybind11 ruamel_yaml shapely
+RUN sudo apt-get update -y
+RUN sudo apt-get install ros-humble-grid-map-*
+
+# cd /home/frl/elev_ws/src/ 
+# git clone https://github.com/ros/bond_core.git -b ros2
+# git clone https://github.com/ros-navigation/navigation2.git -b humble 
+# git clone https://github.com/ros/diagnostics.git -b ros2-humble
+# git clone https://github.com/ros/filters.git -b ros2 
+# git clone https://github.com/ros-perception/image_common.git -b humble 
+# git clone https://github.com/ANYbotics/grid_map.git -b hubmle
+# git clone https://github.com/ros-perception/perception_pcl.git -b ros2
+# git clone https://github.com/ros2/geometry2.git -b humble
+
+# cd /home/frl/elev_ws/
+# colcon build --packages-select bond smclib bondcpp --cmake-args -DCMAKE_BUILD_TYPE=Release
+# colcon build --packages-select bond smclib bondcpp nav2_common nav2_msgs nav2_util nav2_voxel_grid --cmake-args -DCMAKE_BUILD_TYPE=Release
+# colcon build --packages-up-to diagnostics --cmake-args -DCMAKE_BUILD_TYPE=Release
+# colcon build --packages-select filters --cmake-args -DCMAKE_BUILD_TYPE=Release
+# colcon build --packages-select image_transport --cmake-args -DCMAKE_BUILD_TYPE=Release
+# colcon build --packages-select grid_map_cv grid_map_ros grid_map_msgs --cmake-args -DCMAKE_BUILD_TYPE=Release
+# colcon build --packages-select pcl_conversions pcl_ros --cmake-args -DCMAKE_BUILD_TYPE=Release
+# colcon build --packages-select tf2 tf2_ros tf2_eigen tf2_msgs tf2_py tf2_ros_py tf2_geometry_msgs --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+
+
+
+
 
 # Set the default user to 'frl'
 USER frl
 WORKDIR /home/frl
+
+RUN echo "source /opt/ros/humble/install/setup.bash " >> /home/frl/.bashrc
+RUN echo "export ROS_DOMAIN_ID=8" >> /home/frl/.bashrc
+RUN echo "source ~/align_ws/install/setup.bash" >> /home/frl/.bashrc
+
+
 
