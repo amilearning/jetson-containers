@@ -15,7 +15,7 @@ This guide provides instructions for setting up a Docker environment with ROS an
 First, use `jetson-containers` to build a base Docker image with ROS and PyTorch. Run the following command:
 
 ```bash
-$ jetson-containers build --name=ros_torch:l4t-r36.4.0 l4t-pytorch ros:humble-desktop
+$ jetson-containers build --name=ros_torch:l4t-r36.4.0 ros:humble-desktop l4t-pytorch
 ```
 
 This command builds an image named `ros_torch:l4t-r36.4.0` with PyTorch and ROS Humble installed, specifically for NVIDIA's L4T (Linux for Tegra) environment on Jetson devices.
