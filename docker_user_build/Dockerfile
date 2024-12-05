@@ -1,6 +1,7 @@
 # Use the base image
-FROM ros_torch:l4t-r36.4.0
+FROM ros_torch:l4t-r36.4.0-l4t-r36.4.0
 
+RUN apt-get purge -y '*opencv*'
 # Install sudo package
 RUN apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*
 
@@ -22,7 +23,7 @@ RUN chown -R root:root /root && \
 # Install required Python packages
 RUN pip install xformers triton simple_parsing scikit-learn cupy pybind11 ruamel_yaml shapely
 RUN sudo apt-get update -y
-RUN sudo apt-get install ros-humble-grid-map-*
+RUN sudo apt-get install ros-humble-grid-map* -y
 
 # cd /home/frl/elev_ws/src/ 
 # git clone https://github.com/ros/bond_core.git -b ros2
