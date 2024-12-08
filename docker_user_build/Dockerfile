@@ -1,9 +1,10 @@
 # Use the base image
 FROM ros_torch:l4t-r36.4.0-l4t-r36.4.0
 
-RUN apt-get purge -y '*opencv*'
+# RUN apt-get purge -y '*opencv*'
 # Install sudo package
-RUN apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y  
+# sudo && rm -rf /var/lib/apt/lists/*
 
 # Create a new user 'frl' with UID 1000 (or another UID if desired)
 # -m creates a home directory for 'frl'
@@ -23,7 +24,31 @@ RUN chown -R root:root /root && \
 # Install required Python packages
 RUN pip install xformers triton simple_parsing scikit-learn cupy pybind11 ruamel_yaml shapely
 RUN sudo apt-get update -y
-RUN sudo apt-get install ros-humble-grid-map* -y
+
+# rebuild cv bridge with the current opencv 
+# RUN apt-get remove --purge ros-humble-cv-bridge
+#RUN apt-get remove --purge ros-humble-cv-bridge ros-humble-vision-opencv ros-humble-image-geometry ros-humble-image-pipeline ros-humble-compressed-image-transport ros-humble-compressed-depth-image-transport
+
+#RUN rm /opt/ros/humble/install/lib/libcv_bridge.so
+#RUN find /opt/ros/humble/install/lib /usr/lib /usr/local/lib -type f \( -name "libcv_bridge*.so*" -o -name "libvision_opencv*.so*" -o -name "libimage_geometry*.so*" -o -name "libimage_pipeline*.so*" -o -name "libcompressed_image_transport*.so*" -o -name "libcompressed_depth_image_transport*.so*" \) -exec rm -f {} \;
+
+RUN source /opt/ros/humble/install/setup.bash
+
+# RUN apt-get update && apt-get install ros-humble-ament-cmake-ros -y
+
+# RUN mkdir -p /home/frl/bridge_ws/src && \
+#     cd /home/frl/bridge_ws/src && \
+#     git clone https://github.com/ros-perception/vision_opencv.git -b humble && \    
+#     cd /home/frl/bridge_ws && \
+#     colcon build --cmake-args -DCMAKE_PREFIX_PATH=/usr/lib/aarch64-linux-gnu/cmake/opencv4 -DCMAKE_BUILD_TYPE=Release
+
+# RUN source /home/frl/bridge_ws/install/setup.bash && \
+#     cd /home/frl/bridge_ws/src && \
+#     git clone https://github.com/ANYbotics/grid_map.git -b humble && \
+#     cd /home/frl/bridge_ws && \
+#     colcon build --cmake-args -DCMAKE_PREFIX_PATH=/usr/lib/aarch64-linux-gnu/cmake/opencv4 -DCMAKE_BUILD_TYPE=Release
+
+# RUN apt-get install ros-humble-grid-map-msgs ros-humble-grid-map-ros -y
 
 # cd /home/frl/elev_ws/src/ 
 # git clone https://github.com/ros/bond_core.git -b ros2
@@ -56,7 +81,8 @@ WORKDIR /home/frl
 
 RUN echo "source /opt/ros/humble/install/setup.bash " >> /home/frl/.bashrc
 RUN echo "export ROS_DOMAIN_ID=8" >> /home/frl/.bashrc
-RUN echo "source ~/align_ws/install/setup.bash" >> /home/frl/.bashrc
+#RUN echo "source ~/bridge_ws/install/setup.bash" >> /home/frl/.bashrc
+#RUN echo "source ~/align_ws/install/setup.bash" >> /home/frl/.bashrc
 
 
 
