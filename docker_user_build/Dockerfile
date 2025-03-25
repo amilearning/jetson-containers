@@ -23,7 +23,26 @@ RUN chown -R root:root /root && \
 
 # Install required Python packages
 RUN pip install xformers triton simple_parsing scikit-learn cupy pybind11 ruamel_yaml shapely
+
 RUN sudo apt-get update -y
+
+
+# ----- JAX installation block -----
+RUN set -ex && \
+    wget https://apt.llvm.org/llvm.sh && \
+    chmod +x llvm.sh && \
+    ./llvm.sh 18 && \
+    ln -sf /usr/bin/llvm-config-* /usr/bin/llvm-config && \
+    ln -s /usr/bin/clang-1* /usr/bin/clang && \
+    pip install --no-cache-dir scikit-build ninja && \
+    pip install --verbose --no-cache-dir jaxlib jax_cuda12_plugin opt_einsum && \
+    pip install --verbose --no-cache-dir --no-dependencies jax && \
+    python3 -c 'import jax; print(f"JAX version: {jax.__version__}"); print(f"CUDA devices: {jax.devices()}");'
+
+# Install additional Python packages
+RUN pip install tensorboard 
+RUN pip install -U flax
+
 
 # rebuild cv bridge with the current opencv 
 # RUN apt-get remove --purge ros-humble-cv-bridge
